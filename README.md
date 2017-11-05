@@ -70,5 +70,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* I would like to express my special thanks to my Professor Dimitrios Fasouliotis for answering my questions during working on these exercises.
-* Also I would like to thank my girlfriend for putting up with my spending all this time in front of my computer, working on these assignements, instead of her.

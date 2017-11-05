@@ -54,3 +54,4 @@ dkms.conf
 *.aux
 *.synctex
 *.pdf
+*.eps
