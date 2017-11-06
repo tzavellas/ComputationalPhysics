@@ -6,6 +6,22 @@ Created on Fri Nov  3 20:01:02 2017
 """
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+
+def line(x, a, b):
+    """
+    Line equation, used 
+    for curve fitting algorithm
+    
+    Args:
+        x: x value
+         a: line coefficient
+         b: line constant term
+    
+    Returns:
+        The y coordinate of the point
+    """
+    return a*x + b
 
 def period(L):
     """
@@ -41,13 +57,13 @@ def gError(L, T, dL, dT):
     dg = np.power(2*np.pi, 2) * np.sqrt( np.power(dL/(T*T), 2) + np.power(2*L*dT/np.power(T, 3), 2) )
     return dg
 
-def experiment(gTheory, L, dL, dT, dLsystm = 0):
+def experiment(L, T, dL, dT, dLsystm = 0):
     """
     Performs a g-measurement experiment
     
     Args:
-        gTheory: Actual value of g
-        L: A vector of length values of the pendulum
+        L: A vector of length measurements of the pendulum
+        T: A vector of period measurements of the pendulum
         dL: The error in length measurement
         dT: The error in period measurement
         dLsystm: Systematic error of length measurement, default value 0
@@ -57,14 +73,14 @@ def experiment(gTheory, L, dL, dT, dLsystm = 0):
         the g-error values and the measured period 
         values, for each length
     """
-    L = L + dLsystm                                             # Add systematic error, if it exists
-    T = period(L) + np.random.standard_normal(L.size) * dT      # Period measurements with dt=0.1s accuracy
-    g = np.power(2*np.pi, 2) * L / np.power(T, 2)               # Indirect g measurement from length and period
-    gMean = np.sum(g)/g.size                                    # Mean value of g measurements
-    dg = gError(L, T, dL, dT)                                   # g measurement error
-    return {'g':g, 'dg':dg, 'L':L, 'T':T, 'gMean':gMean}
+    L = L + dLsystm                                                     # Add systematic error, if it exists
+    g = np.power(2*np.pi, 2) * L / np.power(T, 2)                 # Indirect g measurement from length and period
+    dg = gError(L, T, dL, dT)                                         # g measurement error
+    gMean = np.sum(g)/g.size                                         # Mean value of g measurements
+    dgMean = np.sqrt(np.sum(dg*dg))/dg.size                         # Error of mean value of g
+    return {'g':gMean, 'dg':dgMean}
 
-def fit(experiment):
+def fit(experiment, L, T, dLsystm = 0):
     """
     Performs Least Square Fit on the given experiment
     
@@ -75,29 +91,33 @@ def fit(experiment):
         A dictionary with the LSF value of g, the
         LSF coefficients, and the values used for the fit
     """
-    y = np.power(experiment['T'], 2)
-    x = experiment['L']
-    A, B = np.polyfit(x, y, 1)              # Least squares fit with x->L and y->T^2: y = Ax + B
+    y = np.power(T, 2)
+    x = L + dLsystm
+    result =curve_fit(line, x, y)
+    A = result[0][0]
+    B = result[0][1]
+    dA = np.sqrt(np.diag(result[1]))
     g = np.power(2*np.pi, 2)/A              # Coefficient A gives g: A = (2*pi)^2 / g
-    return {'g':g, 'A':A, 'B':B, 'x':x, 'y':y}
+    dg = np.power(2*np.pi, 2)*dA[0]/(A*A)        # Error of g is using error propagation rule
+    return {'g':g, 'dg':dg, 'A':A, 'B':B, 'x':x, 'y':y}
 
 
 gTheory = 9.8
 L = np.array([0.2, 0.4, 0.8, 1.0])
 dL = 0.01
 dT = 0.1
+T = period(L) + np.random.standard_normal(L.size) * dT     # Period measurements with dt=0.1s accuracy
+
 
 print("Experiment without systematic error")
-experiment1 = experiment(gTheory, L, dL, dT)    # Perform experiment 1
+experiment1 = experiment(L, T, dL, dT)    # Perform experiment 1
 print("Mean Value Method")
 print("-----------------")
-for i in range(experiment1['g'].size):
-    print("L={:.1f} : g = {:.2f} +- {:.2f}".format(L[i], experiment1['g'][i], experiment1['dg'][i]))
-print("g Mean value: {:.2f}".format(experiment1['gMean']))
+print("g = {:.2f} +- {:.2f}".format(experiment1['g'], experiment1['dg']))
 print("\nLeast Squares Fit Method")
 print("------------------------")
-lsq1 = fit(experiment1)                          # Perform LSF for experiment 1
-print("g Least Squares: {:.2f}".format(lsq1['g']))
+lsq1 = fit(experiment1, L, T)                          # Perform LSF for experiment 1
+print("g = {:.2f} +- {:.2f}".format(lsq1['g'], lsq1['dg']))
 xn = lsq1['x']
 yn = np.polyval([lsq1['A'], lsq1['B']], xn)
 plt.plot(xn, yn, 'r', label='$\delta L_{system} = 0$')# Plot least square line
@@ -107,16 +127,14 @@ plt.xlabel('$L[m]$')
 
 dLsystm = 0.05
 print("\n\nExperiment with systematic error={:.2f}".format(dLsystm))
-experiment2 = experiment(gTheory, L, dL, dT, dLsystm)   # Perform experiment 2 with dL = 0.05
+experiment2 = experiment(L, T, dL, dT, dLsystm)   # Perform experiment 2 with dL = 0.05
 print("Mean Value Method")
 print("-----------------")
-for i in range(experiment2['g'].size):
-    print("L={:.1f} : g = {:.2f} +- {:.2f}".format(L[i], experiment2['g'][i], experiment2['dg'][i]))
-print("g Mean value: {:.2f}".format(experiment2['gMean']))
+print("g = {:.2f} +- {:.2f}".format(experiment2['g'], experiment2['dg']))
 print("\nLeast Squares Fit Method")
 print("-------------------------")
-lsq2 = fit(experiment2)
-print("g Least Squares: {:.2f}".format(lsq2['g']))
+lsq2 = fit(experiment2, L, T, dLsystm)
+print("g = {:.2f} +- {:.2f}".format(lsq2['g'], lsq2['dg']))
 xn = lsq2['x']
 yn = np.polyval([lsq2['A'], lsq2['B']], xn)
 plt.plot(xn, yn, 'b', label='$\delta L_{system} = 0.05$')        # Plot least square line
