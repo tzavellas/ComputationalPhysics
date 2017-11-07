@@ -9,14 +9,14 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 You need:
-1. [ROOT](https://root.cern.ch/downloading-root) package
+1. [Python 3.7](https://wiki.python.org/moin/PythonDistributions) Any Python Scientific Distribution with numpy
 2. Some [LaTeX](https://www.latex-project.org/) distribution
 
 ### Installing
 
 1. git clone <repo>
 2. Compile LaTeX files with your favorite distribution
-3. Run source code with ROOT interpreter
+3. Run source code with python
 
 End with an example of getting some data out of the system or using it for a little demo
 
