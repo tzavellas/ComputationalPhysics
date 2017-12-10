@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def fixed_point(x0, g, tol, N = None):
+def FixedPoint(x0, g, tol, N = None):
 	i = 1
 	p0 = x0
 	while (True if N is None else (i<N) ):
@@ -45,13 +45,13 @@ x0 = 2.6
 roots = np.zeros(4)
 iterations = np.zeros(2)
 
-result = fixed_point(x0, g1, 1e-4)
+result = FixedPoint(x0, g1, 1e-4)
 roots[0] = result['p']
 roots[1] = - roots[0]
 iterations[0] = result['iterations']
 print('Root found after ', iterations[0], ' iterations')
 
-result = fixed_point(x0, g2, 1e-4)
+result = FixedPoint(x0, g2, 1e-4)
 roots[2] = result['p']
 roots[3] = - roots[2]
 iterations[1] = result['iterations']
