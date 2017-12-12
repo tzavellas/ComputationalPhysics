@@ -19,14 +19,15 @@ def swap(r, p, E, cols=None):
         E[:, p] = np.copy(b)
 
 
-def BackSubstitution(x, A):
+def BackSubstitution(A, b):
     rows = A.shape[0]
-    x[rows-1] = A[rows-1, rows]/A[rows-1, rows-1]
-    for i in reversed(range(rows-1)):
-        sum = 0
-        for j in range(i+1, rows):
-            sum = sum + A[i, j] * x[j]
-        x[i] = (A[i, rows] - sum) / A[i, i]
+    x = np.zeros(rows)
+    for i in reversed(range(rows)):
+        s = 0
+        for j in range(i + 1, rows):
+            s = s + A[i, j] * x[j]
+        x[i] = (b[i] - s) / A[i, i]
+    return x
 
 
 def foundNonZeroPivot(r, E):
@@ -76,7 +77,7 @@ def completePivot(r, A):
     return
 
 
-def GaussElimination(x, A, b, pivot=None):
+def GaussElimination(A, b, pivot=None):
     isSingular = False
     rows = A.shape[0]
     b = b.reshape(rows, 1)
@@ -102,41 +103,35 @@ def GaussElimination(x, A, b, pivot=None):
     elif np.isclose(E[rows-1, rows-1], 0):
         print("There is no unique solution")
     else:
-        BackSubstitution(x, E)
+        y = E[:, rows]
+        E = np.delete(E, [rows], axis=1)
+        x = BackSubstitution(E, y)
     return {'E': E, 'x': x, 'isSingular': isSingular}
 
 
 def determinant(A):
     rows = A.shape[0]
-    det = 1
+    det = 1.
     for i in range(rows):
         det = det * A[i, i]
     return det
 
 
-#A = np.array([[1, 1, 2], [-1, 0, 2], [3, 2, -1]])
-#B = np.array([1, -3, 8])
 A = np.array([[1., 1., 2.], [1., -1., 0.], [-2., 2., 4.]])
 B = np.array([7., 1., 2.])
 x = np.zeros(3)
 
-result1 = GaussElimination(x, A, B, 'complete')
+result1 = GaussElimination(A, B, 'complete')
 det1 = determinant(result1['E'])
 print('Complete Pivot Determinant is: ', det1)
 print('Complete Pivot Solution is: ', result1['x'])
 
-result2 = GaussElimination(x, A, B, 'partial')
+result2 = GaussElimination(A, B, 'partial')
 det2 = determinant(result2['E'])
 print('Partial Pivot Determinant is: ', det2)
 print('Partial Pivot Solution is: ', result2['x'])
 
-result3 = GaussElimination(x, A, B)
+result3 = GaussElimination(A, B)
 det3 = determinant(result3['E'])
 print('Simple Pivot Determinant is: ', det3)
 print('Simple Pivot Solution is: ', result3['x'])
-
-
-
-A = np.array([[-1., 2., -1.], [2., -1., 0.], [1., 7., -3.]])
-B = np.array([0., 1., 5.])
-res = GaussElimination(x, A, B, 'partial')

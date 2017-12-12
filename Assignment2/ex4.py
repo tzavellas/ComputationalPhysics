@@ -8,61 +8,45 @@ Created on Mon Dec 11 20:02:37 2017
 import numpy as np
 
 
-def swap(r, p, E):
-    n = A.shape
-    for q in range(r, n):
-        b = E[r][q]
-        E[r][q] = E[p][q]
-        E[p][q] = b
+def ForwardSubstitution(A, b):
+    rows = A.shape[0]
+    y = np.zeros(rows)
+    for i in range(rows):
+        s = 0.
+        for j in range(i):
+            s = s + A[i, j] * y[j]
+        y[i] = (b[i] - s) / A[i, i]
+    return y
 
 
-def BackSubstitution(x, A):
-    n = A.shape[0]
-    x[n-1] = A[n-1][n]/A[n-1][n-1]
-    for i in reversed(range(n-1)):
-        sum = 0
-        for j in range(i+1, n):
-            sum = sum + A[i][j] * x[j]
-        x[i] = (A[i][n] - sum) / A[i][i]
+def BackSubstitution(A, b):
+    rows = A.shape[0]
+    x = np.zeros(rows)
+    for i in reversed(range(rows)):
+        s = 0
+        for j in range(i + 1, rows):
+            s = s + A[i, j] * x[j]
+        x[i] = (b[i] - s) / A[i, i]
+    return x
 
 
-def Pivoting(r, E, n):
-    PivotFound = False
-    for p in range(r, n - 1):
-        if np.isclose(E[p][r], 0):  # Keep looking for non zero pivot
-            continue
-        else:  # if pivot is found
-            PivotFound = True
-            if p != r:  # Only swap if p>r
-                swap(r, p, E)  # swap p and r rows
-            break
-    return PivotFound
+def LU(A):
+    n, m = A.shape
+    assert (n == m)
+    U = np.copy(A)
+    L = np.identity(n)
+    for k in range(n-1):
+        for j in range(k+1, n):
+            L[j, k] = U[j, k] / U[k, k]
+            for p in range(k, n):
+                U[j, p] = U[j, p] - L[j, k] * U[k, p]
+    return {'L': L, 'U': U}
 
 
-def GaussElimination(x, A, b):
-    isSingular = False
-    n = b.size
-    b = b.reshape(n, 1)
-    E = np.append(A, b, axis=1)  # Append b as extra column
-    for r in range(n - 1):
-        if Pivoting(r, E, n) is False:
-            isSingular = True
-            print("Matrix is singular")
-            break
-        for i in range(r + 1, n):
-            m = - E[i][r]/E[r][r]
-            E[i][r] = 0
-            for j in range(r + 1, n + 1):
-                E[i][j] = E[i][j] + m * E[r][j]
-    if np.isclose(E[n-1][n-1], 0):
-        print("There is no unique solution")
-    if (isSingular is False):
-        BackSubstitution(x, E)
-    return {'E': E, 'x': x, 'isSingular': isSingular}
-
-
-A = np.array([[1, 1, 2], [-1, 0, 2], [3, 2, -1]])
-B = np.array([1, -3, 8])
-x = np.zeros(3)
-
-g = GaussElimination(x, A, B)
+A = np.array([[1., 1., 2.], [-1., 0., 2.], [3., 2., -1.]])
+B = np.array([1., -3., 8.])
+ret = LU(A)
+L = ret['L']
+U = ret['U']
+y = ForwardSubstitution(L, B)
+x = BackSubstitution(U, y)
