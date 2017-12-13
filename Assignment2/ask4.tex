@@ -2,19 +2,51 @@
 \begin{document}
 
 \section*{4η Άσκηση}
+Ο πίνακας A παραγοντοποιείται σε \textlatin{LU} ως:
+\begin{equation}
+\left[
+\begin{matrix}
+1 & 1 & 2 \\
+-1& 0 & 2 \\
+3 & 2 & -1
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+1 & 0 & 0 \\
+-1& 1 & 0 \\
+3 & -1 & 1
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+1 & 1 & 2 \\
+0 & 1 & 4 \\
+0 & 0 & -3
+\end{matrix}
+\right]
+\end{equation}
 
+Κατόπιν, μπορεί να λυθεί το αρχικό σύστημα $Ax=b$ ως $Ly=b$ με εμπρός αντικατάσταση και στη συνέχεια λύνοντας $Ux=b$ με πίσω αντικατάσταση. Για το πρώτο σύστημα είναι
+\begin{equation}
+y = \left[
+\begin{matrix}
+1 \\ -2 \\ 3
+\end{matrix}
+\right]
+\end{equation}
+και για το δεύτερο
+\begin{equation}
+x = \left[
+\begin{matrix}
+1 \\ 2 \\ -1
+\end{matrix}
+\right]
+\end{equation}
 
-%\begin{figure}[hp]
-%\includegraphics[width=0.9\textwidth]{rejection.eps}
-%\centering
-%\caption{Σημεία εκτέλεσης \textlatin{Monte Carlo}}
-%\label{fig:rejection}
-%\end{figure} 
-%
-%
-%Παρακάτω ακολουθεί ο κώδικας που γράφτηκε σε \textlatin{Python} και έγινε χρήση της βιβλιοθήκης \textlatin{Numpy}.
-%
-%\selectlanguage{english}
-%\lstinputlisting[style=python, firstline=8]{mc_rejection.py}
+Παρακάτω ακολουθεί ο κώδικας που γράφτηκε σε \textlatin{Python} και έγινε χρήση της βιβλιοθήκης \textlatin{Numpy}. Οι ρουτίνες παραγοντοποίησης \textlatin{LU}, εμπρός και πίσω αντικατάστασης δίνονται στο Παράρτημα.
+\selectlanguage{english}
+\lstinputlisting[style=python, firstline=8]{ex4.py}
 
 \end{document}
