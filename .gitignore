@@ -55,3 +55,6 @@ dkms.conf
 *.synctex
 *.pdf
 *.eps
+Assignment2/__pycache__/*
+*.gz
+Assignment2/untitled0.py

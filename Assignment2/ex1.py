@@ -25,19 +25,19 @@ def f(x):
     return np.power(x, 2) + 10 * np.cos(x)
 
 
-def g1(x):
+def g2(x):
     return np.sqrt(-10 * np.cos(x))
 
 
-def dg1(x):
+def dg2(x):
     return 10*np.sin(x) / (2 * np.sqrt(-10*np.cos(x)))
 
 
-def g2(x):
+def g1(x):
     return np.arccos(- np.power(x, 2) / 10)
 
 
-def dg2(x):
+def dg1(x):
     return 2*x/np.sqrt(100 - np.power(x, 4))
 
 
@@ -49,18 +49,24 @@ result = FixedPoint(x0, g1, 1e-4)
 roots[0] = result['p']
 roots[1] = - roots[0]
 iterations[0] = result['iterations']
-print('Root found after ', iterations[0], ' iterations')
+print('Roots +-', roots[0],
+      ' found after ', iterations[0], ' iterations')
 
 result = FixedPoint(x0, g2, 1e-4)
 roots[2] = result['p']
 roots[3] = - roots[2]
 iterations[1] = result['iterations']
-print('Root found after ', iterations[1], ' iterations')
+print('Roots +-', roots[2],
+      'found after ', iterations[1], ' iterations')
 
 x = np.arange(-4.5, 4.5, 0.1)
 plt.close('all')
 plt.figure(1)
-plt.plot(x, f(x), roots[0], f(roots[0]), '*r', roots[1], f(roots[1]), '*r', roots[2], f(roots[2]), '*r', roots[3], f(roots[3]), '*r')
+plt.plot(x, f(x),
+         roots[0], f(roots[0]), '*r',
+         roots[1], f(roots[1]), '*r',
+         roots[2], f(roots[2]), '*r',
+         roots[3], f(roots[3]), '*r')
 plt.grid()
 
 x = np.arange(1.95, 3.17, 0.01)
