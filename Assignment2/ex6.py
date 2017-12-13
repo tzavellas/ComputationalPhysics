@@ -18,7 +18,14 @@ d = np.array([1., 0., 0., 1.])
 taus = np.arange(.1, 2., .1)
 for tau in taus:
     result = systems.IterativeMethod(A, d, .5e-6, tau)
-    print('tau=', tau, ': ', result['iterations'], ', x=', result['x'])
+    x = result['x']
+    iterations = result['iterations']
+    print('tau=', tau, ': ', iterations, ', x=', x)
+    print('A*x= ', np.dot(A, x))
+    print('d= ', d)
 
 result = systems.GaussElimination(A, d)
-print('GaussElimination: x=', result['x'])
+x = result['x']
+print('GaussElimination: x=', x)
+print('A*x= ', np.dot(A, x))
+print('d= ', d)
