@@ -2,19 +2,32 @@
 \begin{document}
 
 \section*{5η Άσκηση}
+Για την επίλυση αυτής της άσκησης, υλοποιήθηκε ο αλγόριθμος απαλοιφής \textlatin{Gauss} με ένα επιπλέον όρισμα, το οποίο καθορίζει το είδος της οδήγησης που θα εφαρμοστεί. 
 
+Το όρισμα είναι προαιρετικό οπότε σε περίπτωση που δεν δοθεί, εκτελείται ο αλγόριθμος χωρίς οδήγηση, παρά μόνο για έλεγχο μη μηδενικού στοιχείου οδηγού.
 
-%\begin{figure}[hp]
-%\includegraphics[width=0.9\textwidth]{rejection.eps}
-%\centering
-%\caption{Σημεία εκτέλεσης \textlatin{Monte Carlo}}
-%\label{fig:rejection}
-%\end{figure} 
-%
-%
-%Παρακάτω ακολουθεί ο κώδικας που γράφτηκε σε \textlatin{Python} και έγινε χρήση της βιβλιοθήκης \textlatin{Numpy}.
-%
-%\selectlanguage{english}
-%\lstinputlisting[style=python, firstline=8]{mc_rejection.py}
+Η ορίζουσα του δοσμένου πίνακα μπορεί να υπολογιστεί εύκολα αφού εκτελεστεί ο αλγόριθμος απαλοιφής. Μετά την εκτέλεση του αλγορίθμου, ο αρχικός πίνακας είναι άνω τριγωνικός και επομένως η ορίζουσά του είναι το γινόμενο των διαγώνιων στοιχείων.
 
+Τελικά είναι $det(A)=-8$ είτε εφαρμοστεί μερική είτε πλήρης οδήγηση. Η λύση με μερική οδήγηση είναι
+\begin{equation}
+x_{pp} = \left[
+\begin{matrix}
+3 \\ 2 \\ 1
+\end{matrix}
+\right]
+\end{equation}
+και για πλήρη οδήγηση
+\begin{equation}
+x_{fp} = \left[
+\begin{matrix}
+1 \\ 3 \\ 2
+\end{matrix}
+\right]
+\end{equation}
+
+Η διαφορά στη λύση οφείλεται στις μεταθέσεις γραμμών που προέκυψαν κατά την εκτέλεση του αλγορίθμου.
+
+Παρακάτω ακολουθεί ο κώδικας που γράφτηκε σε \textlatin{Python} και έγινε χρήση της βιβλιοθήκης \textlatin{Numpy}. Η υλοποίηση του αλγορίθμου απαλοιφής \textlatin{Gauss} δίνεται στο Παράρτημα.
+\selectlanguage{english}
+\lstinputlisting[style=python, firstline=8]{ex5.py}
 \end{document}

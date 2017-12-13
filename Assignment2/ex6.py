@@ -6,22 +6,20 @@ Created on Mon Dec 11 20:02:37 2017
 """
 
 import numpy as np
-import systems
+import solver
 
 
-#A = np.array([[2., -1., 0., 0.], [-1., 2., -1., 0.], [0., -1., 2., -1.], [0., 0., -1., 2.]])
-#d = np.array([1., 0., 0., 1.])
-A = np.array([[9., 1, 0], [4, -7, 2], [0, 3, 8]])
-d = np.array([5., 6, 2])
+A = np.array([[2., -1., 0., 0.],
+              [-1., 2., -1., 0.],
+              [0., -1., 2., -1.],
+              [0., 0., -1., 2.]])
+d = np.array([1., 0., 0., 1.])
+
 taus = np.arange(.1, 2., .1)
 for tau in taus:
-    result = systems.IterativeMethod(A, d, .5e-6, tau, 1000)
+    result = solver.IterativeMethod(A, d, .5e-6, tau, 1000)
     x = result['x']
     iterations = result['iterations']
     print('tau=', tau, ': ', iterations, ', x=', x)
-    print('A*x-d=', np.dot(A, x) - d)
-
-#result = systems.GaussElimination(A, d)
-#x = result['x']
-#print('GaussElimination: x=', x)
-#print('A*x-d=', np.dot(A, x) - d)
+    delta = np.dot(A, x) - d
+    print('Norm (Ax-d) =', np.sqrt(np.dot(delta, delta)))
