@@ -133,6 +133,16 @@ def LU(A):
     return {'L': L, 'U': U}
 
 
+def inverseU(U):
+    rows = U.shape[0]
+    Uinv = np.zeros(U.shape)
+    unit = np.identity(rows)
+    for j in range(rows):
+        b = unit[:, j]
+        Uinv[:, j] = BackSubstitution(U, b)
+    return Uinv
+
+
 def IterativeMethod(A, d, tol, tau=0.1, N=None):
     rows = A.shape[0]
     Dinv = np.diag(1./A.diagonal())
@@ -145,17 +155,18 @@ def IterativeMethod(A, d, tol, tau=0.1, N=None):
     L = np.dot(Dinv, CL)
     U = np.dot(Dinv, CU)
 
-    b0 = tau * np.dot(Dinv, d)
-    x0 = d
+    xk = d
     M = np.identity(rows) - U
+    Minv = inverseU(M)
+    C = np.dot(Dinv, d)
+    C = tau * np.dot(Minv, C)
+    T = (1.-tau) * np.identity(rows) + tau * np.dot(Minv, L)
     i = 1
     while (True if N is None else (i < N)):
-        b = (1-tau) * x0 + (tau-1) * np.dot(U, x0) + tau * np.dot(L, x0) + b0
-        ret = GaussElimination(M, b, 'partial')  # Solve Mx = b
-        x = ret['x']
-        dx = x - x0  # Check if scheme converges
-        if np.sqrt(np.dot(dx, dx)) < tol:
+        x = np.dot(T, xk) + C
+        dx = x - xk  # Check if scheme converges
+        if np.sqrt(np.dot(dx, dx)) / np.sqrt(np.dot(x, x)) < tol:
             break
         i = i + 1
-        x0 = x  # Prepare for next iteration
+        xk = x  # Prepare for next iteration
     return {'x': x, 'dx': dx, 'iterations': i}
