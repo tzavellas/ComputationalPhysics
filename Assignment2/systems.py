@@ -146,11 +146,8 @@ def inverseU(U):
 def IterativeMethod(A, d, tol, tau=0.1, N=None):
     rows = A.shape[0]
     Dinv = np.diag(1./A.diagonal())
-    ret = LU(A)
-    CL = -ret['L']  # Calculate CL once
-    np.fill_diagonal(CL, 0.)
-    CU = -ret['U']  # Calculate CU once
-    np.fill_diagonal(CU, 0.)
+    CL = -np.tril(A, -1)
+    CU = -np.triu(A, 1)
 
     L = np.dot(Dinv, CL)
     U = np.dot(Dinv, CU)
@@ -165,7 +162,7 @@ def IterativeMethod(A, d, tol, tau=0.1, N=None):
     while (True if N is None else (i < N)):
         x = np.dot(T, xk) + C
         dx = x - xk  # Check if scheme converges
-        if np.sqrt(np.dot(dx, dx)) / np.sqrt(np.dot(x, x)) < tol:
+        if np.sqrt(np.dot(dx, dx)) < tol:
             break
         i = i + 1
         xk = x  # Prepare for next iteration
