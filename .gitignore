@@ -53,6 +53,8 @@ dkms.conf
 *.log
 *.aux
 *.synctex
-Assignment2/__pycache__/*
+*/__pycache__/*
 *.gz
 Assignment2/untitled0.py
+Assignment1/ask*.pdf
+*/*-eps-converted-to.pdf

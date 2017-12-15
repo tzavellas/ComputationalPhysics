@@ -7,49 +7,40 @@ Created on Sun Dec 10 20:28:24 2017
 
 import numpy as np
 import matplotlib.pyplot as plt
-
-
-def FixedPoint(x0, g, tol, N=None):
-    i = 1
-    p0 = x0
-    while (True if N is None else (i < N)):
-        p = g(p0)
-        if np.abs(p-p0) < tol:
-            break
-        i = i + 1
-        p0 = p
-    return {'p': p, 'iterations': i}
+import interpolation
 
 
 def f(x):
-    return np.power(x, 3) + -x - 1
+    return x + np.sin(x)
 
 
-def g1(x):
-    return np.power(x + 1, 1/3)
+def er(x):
+    return x * (x - .5) * (x - 1) * np.sin(x) / np.math.factorial(4)
 
 
-def dg1(x):
-    return np.power(x + 1, -2/3) / 3
+xValues = np.array([0, 0.5, 1, 1.5])
+yValues = f(xValues)
 
+coefficients = interpolation.dividedDifferenceTable(xValues, yValues)
+p = interpolation.NestedMultiplication(0, xValues, coefficients)
 
-x0 = 1
-result = FixedPoint(x0, g1, 1e-5)
-root = result['p']
-iterations = result['iterations']
-print('Root found after ', iterations, ' iterations')
-
-x = np.arange(1, 2, 0.1)
 plt.close('all')
+x = np.arange(0, 1.6, 0.1)
+y = interpolation.NestedMultiplication(x, xValues, coefficients)
 plt.figure(1)
-plt.plot(x, f(x), root, f(root), '*r')
-plt.grid()
-
-x = np.arange(1, 2, 0.01)
-plt.figure(2)
-plt.plot(x, dg1(x), label='dg1')
-plt.plot(x, np.ones(x.shape), label='y = 1')
-plt.plot(x, -np.ones(x.shape), label='y = -1')
-plt.ylim(-1.5, 1.5)
+plt.plot(x, f(x), '.', label='x + sinx')
+plt.plot(x, y, '--', label='Newton')
+plt.plot(xValues, yValues, '*')
 plt.legend()
 plt.grid()
+
+
+x = np.arange(0, np.pi/2, 0.01)
+err = np.abs(er(x))
+plt.figure(2)
+plt.plot(x, err, label='|f(x)-p(x)|')
+plt.legend()
+plt.grid()
+error = (np.power(np.pi, 3) - 3 * np.power(np.pi, 2) + 2 * np.pi) / 192
+print('Theoretical Error:', error)
+print('Graphical Error:', max(err))
