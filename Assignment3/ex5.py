@@ -2,31 +2,35 @@
 """
 Created on Mon Dec 11 20:02:37 2017
 
-@author: tzave
+@author: Anastasios Tzavellas
 """
 
 import numpy as np
-import solver
+import interpolation
 
 
-def determinant(A):
-    rows = A.shape[0]
-    det = 1.  # Det of a triangular matrix is equal
-    for i in range(rows):  # to the product of the
-        det = det * A[i, i]  # diagonal entries
-    return det
+def f(x):
+    return np.exp(-x)
 
 
-A = np.array([[1., 1., 2.], [1., -1., 0.], [-2., 2., 4.]])
-B = np.array([7., 1., 2.])
-x = np.zeros(3)
+def df(x):
+    return -np.exp(-x)
 
-result1 = solver.GaussElimination(A, B, 'partial')
-det1 = determinant(result1['E'])
-print('Partial Pivot Determinant is: ', det1)
-print('Partial Pivot Solution is: ', result1['x'])
 
-result2 = solver.GaussElimination(A, B, 'complete')
-det2 = determinant(result2['E'])
-print('Complete Pivot Determinant is: ', det2)
-print('Complete Pivot Solution is: ', result2['x'])
+def d2f(x):
+    return f(x)
+
+
+xValues = np.array([0.25, 0.5, 0.75])
+fValues = f(xValues)
+dValues = interpolation.DifferenceTable(fValues)
+
+
+print('Actual df(0.5)=', df(0.5))
+print('Numeric df(0.5)', interpolation.df(0.5, xValues, dValues))
+print('Actual d2f(0.5)=', d2f(0.5))
+print('Numeric d2f(0.5)', interpolation.d2f(0.5, xValues, dValues))
+
+error = f(xValues[0]) / 6 * \
+        np.abs((xValues[1]-xValues[0]) * (xValues[1] - xValues[2]))
+print('Max error is', error)
