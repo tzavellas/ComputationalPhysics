@@ -2,10 +2,11 @@
 """
 Created on Mon Dec 11 20:02:37 2017
 
-@author: tzave
+@author: Anastasios Tzavellas
 """
 
 import numpy as np
+import scipy.integrate as integrate
 
 
 def df(x, xValues, dValues):
@@ -56,3 +57,21 @@ def NestedMultiplication(x, xValues, coeff):
     for i in reversed(range(n - 1)):
         y = coeff[i] + (x - xValues[i]) * y
     return y
+
+
+def lSquaresRightHand(f, order, a, b):
+    n = order + 1
+    y = np.zeros(n)
+    for i in range(n):
+        y[i] = integrate.quad(lambda x: f(x) * np.power(x, i), a, b)[0]
+        y[i] = 0. if np.isclose(y[i], 0., atol=1e-8) else y[i]
+    return y
+
+
+def VandermondeMatrix(order, a, b):
+    n = order + 1
+    A = np.zeros((n, n))
+    for i in range(n):
+        for j in range(n):
+            A[i, j] = integrate.quad(lambda x: np.power(x, i+j), a, b)[0]
+    return A
