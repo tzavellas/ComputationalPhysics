@@ -10,17 +10,20 @@ import scipy.integrate as integrate
 
 
 def df(x, xValues, dValues):
+    """Derivative using partial differences second order"""
     h = xValues[1] - xValues[0]
     theta = (x - xValues[0]) / h
     return (dValues[1] + 0.5 * (2*theta - 1)*dValues[2]) / h
 
 
 def d2f(x, xValues, dValues):
+    """Second Derivative using partial differences second order"""
     h = xValues[1] - xValues[0]
     return dValues[2] / np.power(h, 2)
 
 
-def DifferenceTable(fxValues):
+def differenceTable(fxValues):
+    """Calculates difference table and returns its top diagonal"""
     n = fxValues.size
     dValues = np.copy(fxValues)
     for i in range(1, n):
@@ -30,6 +33,7 @@ def DifferenceTable(fxValues):
 
 
 def dividedDifferenceTable(xValues, fxValues):
+    """Calculates divided difference table and returs its top diagonal"""
     n = fxValues.size
     dValues = np.copy(fxValues)
     for i in range(1, n):
@@ -39,19 +43,22 @@ def dividedDifferenceTable(xValues, fxValues):
     return dValues
 
 
-def dividedDifference(xValues, fxValues, s):
-    val = 0.
-    for i in range(s):
-        xi = xValues[i]
-        product = 1.
-        for j, xj in enumerate(xValues):
-            if j != i:
-                product = product * (xi - xj)
-        val = val + fxValues[i] / product
-    return val
+def addCoefficient(xValues, fxValues, coefficients):
+    """Adds extra Newton Polynomial Coefficient"""
+    n = coefficients.size
+    x = xValues[n]  # Get x of new point to interpolate
+    y_x = fxValues[n]  # Get y of new point to interpolate
+    p_x = NestedMultiplication(x, xValues, coefficients)  # evaluate p(x)
+    product = 1.
+    for i in range(n):
+        product = product * (x - xValues[i])  # (x-x0)(x-x1)...(x-x_n-1)
+    newCoefficient = (y_x - p_x) / product  # new coefficient
+    return np.append(coefficients, newCoefficient)
 
 
 def NestedMultiplication(x, xValues, coeff):
+    """Evaluates Newton Polynomial at x in nested form
+    given the interpolating points and its coefficents"""
     n = coeff.size
     y = coeff[n-1]
     for i in reversed(range(n - 1)):
@@ -60,6 +67,8 @@ def NestedMultiplication(x, xValues, coeff):
 
 
 def lSquaresRightHand(f, order, a, b):
+    """Calculates right hand vector of least
+    squares system of equations"""
     n = order + 1
     y = np.zeros(n)
     for i in range(n):
@@ -69,6 +78,8 @@ def lSquaresRightHand(f, order, a, b):
 
 
 def VandermondeMatrix(order, a, b):
+    """Calculates Vandermonde matrix used in least
+    squares system of equations"""
     n = order + 1
     A = np.zeros((n, n))
     for i in range(n):

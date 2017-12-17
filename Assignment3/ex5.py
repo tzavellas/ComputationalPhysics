@@ -23,7 +23,7 @@ def d2f(x):
 
 xValues = np.array([0.25, 0.5, 0.75])
 fValues = f(xValues)
-dValues = interpolation.DifferenceTable(fValues)
+dValues = interpolation.differenceTable(fValues)
 
 
 print('Actual df(0.5)=', df(0.5))

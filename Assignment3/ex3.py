@@ -19,17 +19,18 @@ y = interpolation.NestedMultiplication(x,
                                        xValues,
                                        coefficients)
 
-plt.plot(xValues, yValues, '*')  # Plot points
+plt.plot(xValues, yValues, 'ro')  # Plot points
 plt.plot(x, y, '.', label='Newton 3rd')  # Plot 3rd degree Newton
 
-n = coefficients.size
-newCoefficient = interpolation.dividedDifference(xValues,
-                                                 yValues,
-                                                 n + 1)
-print('Order', n, 'coefficent is', newCoefficient)
-coefficients = np.append(coefficients, newCoefficient)
+newCoefficients = interpolation.addCoefficient(xValues,
+                                               yValues,
+                                               coefficients)
+print('Order', newCoefficients.size - 1,
+      'coefficent is', newCoefficients[-1])
 
-y = interpolation.NestedMultiplication(x, xValues, coefficients)
+y = interpolation.NestedMultiplication(x,
+                                       xValues,
+                                       newCoefficients)
 plt.plot(x, y, '--', label='Newton 4th')  # Plot 4th degree Newton
 plt.legend()
 plt.grid()

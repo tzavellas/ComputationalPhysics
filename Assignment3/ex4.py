@@ -36,7 +36,7 @@ y1 = np.linalg.solve(A, B1)
 p1 = np.poly1d(np.flip(y1, 0))  # Least Squares polynomial
 plt.figure(1)
 plt.plot(x, f1(x), label='x^2 -2x +3')
-plt.plot(x, p1(x), label='polynomial')
+plt.plot(x, p1(x), '--', label='polynomial')
 plt.legend()
 plt.grid()
 
@@ -46,7 +46,7 @@ y2 = np.linalg.solve(A, B2)
 p2 = np.poly1d(np.flip(y2, 0))  # Least Squares polynomial
 plt.figure(2)
 plt.plot(x, f2(x), label='cos(pi x)')
-plt.plot(x, p2(x), label='polynomial')
+plt.plot(x, p2(x), '--', label='polynomial')
 plt.legend()
 plt.grid()
 
@@ -55,6 +55,6 @@ y3 = np.linalg.solve(A, B3)
 p3 = np.poly1d(np.flip(y3, 0))  # Least Squares polynomial
 plt.figure(3)
 plt.plot(x, f3(x), label='exp(-x)')
-plt.plot(x, p3(x), label='polynomial')
+plt.plot(x, p3(x), '--', label='polynomial')
 plt.legend()
 plt.grid()
