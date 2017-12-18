@@ -27,7 +27,7 @@ b = 1
 order = 2
 
 x = np.arange(a, b, 0.01)
-A = interpolation.VandermondeMatrix(order, a, b)
+A = interpolation.normalEquations(order, a, b)
 
 plt.close('all')
 
