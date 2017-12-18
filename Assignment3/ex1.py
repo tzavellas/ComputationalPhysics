@@ -14,6 +14,8 @@ def f(x):
 
 
 def L(x, i, xValues):
+    """Evaluates ith degree
+    Lagrange Polynomial"""
     xi = xValues[i]
     product = 1.
     for j, xj in enumerate(xValues):
@@ -23,6 +25,7 @@ def L(x, i, xValues):
 
 
 def Lagrange(x, xValues, fValues):
+    """Evaluates Lagrange Polynomial"""
     val = 0.
     for i, fi in enumerate(fValues):
         val = val + L(x, i, xValues) * fi
