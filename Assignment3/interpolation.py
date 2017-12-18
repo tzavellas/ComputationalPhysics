@@ -77,7 +77,7 @@ def lSquaresRightHand(f, order, a, b):
     return y
 
 
-def VandermondeMatrix(order, a, b):
+def normalEquations(order, a, b):
     """Calculates Vandermonde matrix used in least
     squares system of equations"""
     n = order + 1
