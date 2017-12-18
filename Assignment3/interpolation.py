@@ -78,8 +78,8 @@ def lSquaresRightHand(f, order, a, b):
 
 
 def normalEquations(order, a, b):
-    """Calculates Vandermonde matrix used in least
-    squares system of equations"""
+    """Calculates normal equations matrix used in least
+    squares system of equations using monomials"""
     n = order + 1
     A = np.zeros((n, n))
     for i in range(n):
