@@ -86,3 +86,15 @@ def normalEquations(order, a, b):
         for j in range(n):
             A[i, j] = integrate.quad(lambda x: np.power(x, i+j), a, b)[0]
     return A
+
+
+def lSquaresOrthogonal(f, w, phi, order, a, b):
+    """Solves least squares system using orthogonal
+    polynomials with weight w(x) and base phi(x)"""
+    c = np.zeros(order)
+    for i in range(order):
+        c[i] = integrate.quad(lambda x: np.power(phi(x, i), 2), a, b)[0]
+    A = np.zeros(order)
+    for i in range(order):
+        A[i] = integrate.quad(lambda x: f(x) * phi(x, i), a, b)[0] / c[i]
+    return A
