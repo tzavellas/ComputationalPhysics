@@ -21,14 +21,14 @@ a_i = f[x_0, x_1, \dots, x_i]
 	\label{fig:ex2}
 \end{figure}
 
-Zητείται επίσης μια προσέγγιση για το άνω σφάλμα προσέγγισης $|P(x)-f(x)|$ στο $x\in[0,\dfrac{\pi}{2}]$. Γενικότερα το σφάλμα στην πολυωνυμική παρεμβολή αποδεικνύεται ότι δίνεται από την εξίσωση (\ref{eq:error_interpolation}), με $\xi\in (a, b)$, όπου $a=\min[x_0, \dots x_n]$ και $b=\max[x_0, \dots x_n]$.
+Zητείται επίσης μια προσέγγιση για το άνω σφάλμα προσέγγισης $|P(x)-f(x)|$ στο $x\in[0,\dfrac{\pi}{2}]$. Γενικότερα, το σφάλμα στην πολυωνυμική παρεμβολή αποδεικνύεται ότι δίνεται από την εξίσωση (\ref{eq:error_interpolation}), με $\xi\in (a, b)$, όπου $a=\min[x_0, \dots x_n]$ και $b=\max[x_0, \dots x_n]$.
 
 \begin{equation}
 f(x)-p_n(x)=\frac{(x-x_0)\cdots(x-x_n)}{(n+1)!}f^{(n+1)}(\xi)
 \label{eq:error_interpolation}
 \end{equation}
 
-Λαμβάνοντας την απόλυτη τιμή της (\ref*{eq:error_interpolation}) και για την δοσμένη $f(x)$ προκύπτει η (\ref{eq:error_interpolation}). Στο Σχήμα \ref{fig:ex2_error}, δίνεται η γραφική παράσταση του σφάλματος στο υπό εξέταση διάστημα.
+Λαμβάνοντας την απόλυτη τιμή της (\ref*{eq:error_interpolation}) και για την δοσμένη $f(x)$ προκύπτει η (\ref{eq:actual_error}). Στο Σχήμα \ref{fig:ex2_error}, δίνεται η γραφική παράσταση του σφάλματος στο υπό εξέταση διάστημα.
 
 \begin{equation}
 \begin{split}
@@ -37,7 +37,7 @@ f(x)-p_n(x)=\frac{(x-x_0)\cdots(x-x_n)}{(n+1)!}f^{(n+1)}(\xi)
 & \leq \frac{\dfrac{\pi}{2} (\dfrac{\pi}{2}-\dfrac{1}{2})(\dfrac{\pi}{2}-1)}{4!} \rightarrow \\
 &=\frac{\pi^3-3\pi^2+2\pi}{192} \approx 0.04
 \end{split}
-\label{eq:interpolation_error}
+\label{eq:actual_error}
 \end{equation}
 
 \begin{figure}[hp]

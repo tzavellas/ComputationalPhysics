@@ -10,20 +10,23 @@ import scipy.integrate as integrate
 
 
 def df(x, xValues, dValues):
-    """Derivative using partial differences second order"""
+    """Derivative using partial differences
+    second order"""
     h = xValues[1] - xValues[0]
     theta = (x - xValues[0]) / h
     return (dValues[1] + 0.5 * (2*theta - 1)*dValues[2]) / h
 
 
 def d2f(x, xValues, dValues):
-    """Second Derivative using partial differences second order"""
+    """Second Derivative using partial differences
+    second order"""
     h = xValues[1] - xValues[0]
     return dValues[2] / np.power(h, 2)
 
 
 def differenceTable(fxValues):
-    """Calculates difference table and returns its top diagonal"""
+    """Calculates difference table and returns its
+    top diagonal"""
     n = fxValues.size
     dValues = np.copy(fxValues)
     for i in range(1, n):
@@ -33,7 +36,8 @@ def differenceTable(fxValues):
 
 
 def dividedDifferenceTable(xValues, fxValues):
-    """Calculates divided difference table and returs its top diagonal"""
+    """Calculates divided difference table and returs its
+    top diagonal"""
     n = fxValues.size
     dValues = np.copy(fxValues)
     for i in range(1, n):
@@ -51,7 +55,7 @@ def addCoefficient(xValues, fxValues, coefficients):
     p_x = NestedMultiplication(x, xValues, coefficients)  # evaluate p(x)
     product = 1.
     for i in range(n):
-        product = product * (x - xValues[i])  # (x-x0)(x-x1)...(x-x_n-1)
+        product = product * (x - xValues[i])  # (x-x0)...(x-x_n-1)
     newCoefficient = (y_x - p_x) / product  # new coefficient
     return np.append(coefficients, newCoefficient)
 
@@ -72,7 +76,8 @@ def lSquaresRightHand(f, order, a, b):
     n = order + 1
     y = np.zeros(n)
     for i in range(n):
-        y[i] = integrate.quad(lambda x: f(x) * np.power(x, i), a, b)[0]
+        y[i] = integrate.quad(lambda x: f(x) * np.power(x, i),
+         a, b)[0]
         y[i] = 0. if np.isclose(y[i], 0., atol=1e-8) else y[i]
     return y
 
@@ -84,5 +89,6 @@ def normalEquations(order, a, b):
     A = np.zeros((n, n))
     for i in range(n):
         for j in range(n):
-            A[i, j] = integrate.quad(lambda x: np.power(x, i+j), a, b)[0]
+            A[i, j] = integrate.quad(lambda x: np.power(x, i+j),
+             a, b)[0]
     return A
