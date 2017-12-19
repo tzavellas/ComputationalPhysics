@@ -66,26 +66,24 @@ def NestedMultiplication(x, xValues, coeff):
     return y
 
 
-def lSquaresRightHand(f, order, a, b):
-    """Calculates right hand vector of least
-    squares system of equations"""
+def lSquaresMonomial(f, order, a, b):
+    """Solves least squares with monomial polynomials"""
     n = order + 1
-    y = np.zeros(n)
-    for i in range(n):
-        y[i] = integrate.quad(lambda x: f(x) * np.power(x, i), a, b)[0]
-        y[i] = 0. if np.isclose(y[i], 0., atol=1e-8) else y[i]
-    return y
-
-
-def normalEquations(order, a, b):
-    """Calculates normal equations matrix used in least
-    squares system of equations using monomials"""
-    n = order + 1
-    A = np.zeros((n, n))
+    S = np.zeros((n, n))
     for i in range(n):
         for j in range(n):
-            A[i, j] = integrate.quad(lambda x: np.power(x, i+j), a, b)[0]
-    return A
+            S[i, j] = integrate.quad(lambda x: np.power(x, i+j),
+             a,
+             b)[0]
+    y = np.zeros(n)
+    for i in range(n):
+        y[i] = integrate.quad(lambda x: f(x) * np.power(x, i),
+         a,
+         b)[0]
+        # Round to 0 if less than 1e-8
+        y[i] = 0. if np.isclose(y[i], 0., atol=1e-8) else y[i]  
+    p = np.linalg.solve(S, y)
+    return np.poly1d(np.flip(p, 0))
 
 
 def lSquaresOrthogonal(f, w, phi, order, a, b):
@@ -93,8 +91,12 @@ def lSquaresOrthogonal(f, w, phi, order, a, b):
     polynomials with weight w(x) and base phi(x)"""
     c = np.zeros(order)
     for i in range(order):
-        c[i] = integrate.quad(lambda x: np.power(phi(x, i), 2), a, b)[0]
+        c[i] = integrate.quad(lambda x: np.power(phi(x, i), 2),
+         a,
+         b)[0]
     A = np.zeros(order)
     for i in range(order):
-        A[i] = integrate.quad(lambda x: f(x) * phi(x, i), a, b)[0] / c[i]
+        A[i] = integrate.quad(lambda x: f(x) * phi(x, i),
+         a,
+         b)[0] / c[i]
     return A

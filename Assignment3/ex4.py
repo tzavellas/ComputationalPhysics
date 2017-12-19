@@ -44,13 +44,10 @@ b = 1
 order = 2
 
 x = np.arange(a, b, 0.01)
-A = interpolation.normalEquations(order, a, b)
 
 plt.close('all')
 
-B1 = interpolation.lSquaresRightHand(f1, order, a, b)
-y1 = np.linalg.solve(A, B1)  # Solve with base {1, x, x^2, ...}
-p1 = np.poly1d(np.flip(y1, 0))  # LS polynomial
+p1 = interpolation.lSquaresMonomial(f1, order, a, b)
 a1 = interpolation.lSquaresOrthogonal(f1,
                                       wLegendre,
                                       Legendre,
@@ -64,10 +61,7 @@ plt.plot(x, np.polynomial.legendre.legval(x, a1), '.', label='Legendre')
 plt.legend()
 plt.grid()
 
-
-B2 = interpolation.lSquaresRightHand(f2, order, a, b)
-y2 = np.linalg.solve(A, B2)
-p2 = np.poly1d(np.flip(y2, 0))  # Least Squares polynomial
+p2 = interpolation.lSquaresMonomial(f2, order, a, b)
 a2 = interpolation.lSquaresOrthogonal(f2,
                                       wLegendre,
                                       Legendre,
@@ -81,9 +75,7 @@ plt.plot(x, np.polynomial.legendre.legval(x, a2), '.', label='Legendre')
 plt.legend()
 plt.grid()
 
-B3 = interpolation.lSquaresRightHand(f3, order, a, b)
-y3 = np.linalg.solve(A, B3)
-p3 = np.poly1d(np.flip(y3, 0))  # Least Squares polynomial
+p3 = interpolation.lSquaresMonomial(f3, order, a, b)
 a3 = interpolation.lSquaresOrthogonal(f3,
                                       wLegendre,
                                       Legendre,
