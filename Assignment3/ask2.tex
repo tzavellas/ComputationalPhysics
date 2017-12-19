@@ -2,7 +2,7 @@
 \begin{document}
 
 \section*{2η Άσκηση}
-Το πολυώνυμο παρεμβολής \textlatin{Newton} μπορεί να βρεθεί με χρήση του αλγορίθμου διηρημένων διαφορών. Συγκεκριμένα το πολυώνυμο που προκύπτει είναι της μορφής (\ref{eq:newton_poly}), όπου οι συντελεστές $a_i$ δίνονται από τις διηρημένες διαφορές(\ref{eq:divided_diff}) και $x_i,i=0,1,\dots n$ τα σημεία παρεμβολής. 
+Το πολυώνυμο παρεμβολής \textlatin{Newton} μπορεί να βρεθεί με χρήση του αλγορίθμου διηρημένων διαφορών. Συγκεκριμένα το πολυώνυμο που προκύπτει είναι της μορφής (\ref{eq:newton_poly}), όπου οι συντελεστές $a_i$ δίνονται από τις διηρημένες διαφορές (\ref{eq:divided_diff}) και $x_i,i=0,1,\dots n$ τα σημεία παρεμβολής. 
 
 \begin{equation}
 P_n(x) = a_0 + a_1(x-x_0) + \dots + a_n(x-x_0)(x-x_1)\cdots (x-x_n)
@@ -15,19 +15,16 @@ a_i = f[x_0, x_1, \dots, x_i]
 \end{equation}
 Το αποτέλεσμα της παρεμβολής δίνεται στο Σχήμα \ref{fig:ex2}.
 \begin{figure}[hp]
-	\includegraphics[width=0.7\textwidth]{ex2.eps}
+	\includegraphics[width=0.9\textwidth]{ex2.eps}
 	\centering
 	\caption{Παρεμβολή με πολυώνυμο \textlatin{Newton}}
 	\label{fig:ex2}
 \end{figure}
-
-Zητείται επίσης μια προσέγγιση για το άνω σφάλμα προσέγγισης $|P(x)-f(x)|$ στο $x\in[0,\dfrac{\pi}{2}]$. Γενικότερα, το σφάλμα στην πολυωνυμική παρεμβολή αποδεικνύεται ότι δίνεται από την εξίσωση (\ref{eq:error_interpolation}), με $\xi\in (a, b)$, όπου $a=\min[x_0, \dots x_n]$ και $b=\max[x_0, \dots x_n]$.
-
+Σχετικά με το σφάλμα προσέγγισης $f(x)-P(x)$ στο $x\in[0,\dfrac{\pi}{2}]$, αποδεικνύεται ότι δίνεται από την εξίσωση (\ref{eq:error_interpolation}), με $\xi\in (a, b)$, όπου $a=\min[x_0, \dots x_n]$ και $b=\max[x_0, \dots x_n]$.
 \begin{equation}
 f(x)-p_n(x)=\frac{(x-x_0)\cdots(x-x_n)}{(n+1)!}f^{(n+1)}(\xi)
 \label{eq:error_interpolation}
 \end{equation}
-
 Λαμβάνοντας την απόλυτη τιμή της (\ref*{eq:error_interpolation}) και για την δοσμένη $f(x)$ προκύπτει η (\ref{eq:actual_error}). Στο Σχήμα \ref{fig:ex2_error}, δίνεται η γραφική παράσταση του σφάλματος στο υπό εξέταση διάστημα.
 
 \begin{equation}

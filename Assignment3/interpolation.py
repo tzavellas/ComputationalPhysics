@@ -103,4 +103,5 @@ def lSquaresOrthogonal(f, w, phi, order, a, b):
         A[i] = integrate.quad(lambda x: f(x) * phi(x, i),
          a,
          b)[0] / c[i]
-    return A
+    legpoly = np.polynomial.legendre.leg2poly(A)
+    return np.poly1d(np.flip(legpoly, 0))

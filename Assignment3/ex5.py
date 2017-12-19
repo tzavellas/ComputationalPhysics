@@ -44,10 +44,3 @@ error = f(xValues[0]) / 6 * \
 print('Max error is', error)
 
 x = np.arange(0.25, 0.76, 0.01)
-plt.close('all')
-#plt.plot(x, interpolation.df(x, xValues, dValues), label='arithmetic')
-#plt.plot(x, df(x), label='actual')
-plt.plot(x, err1(x), label='err1')
-plt.plot(x, err2(x), label='err2')
-plt.legend()
-plt.grid()

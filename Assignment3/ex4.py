@@ -54,10 +54,12 @@ a1 = interpolation.lSquaresOrthogonal(f1,
                                       3,
                                       -1,
                                       1)  # Base Legendre polynomials
+print("Monomial:", p1)
+print("Legendre:", a1)
 plt.figure(1)
 plt.plot(x, f1(x), label='x^2 -2x +3')
 plt.plot(x, p1(x), '--', label='monomial')
-plt.plot(x, np.polynomial.legendre.legval(x, a1), '.', label='Legendre')
+plt.plot(x, a1(x), '.', label='Legendre')
 plt.legend()
 plt.grid()
 
@@ -68,10 +70,12 @@ a2 = interpolation.lSquaresOrthogonal(f2,
                                       3,
                                       -1,
                                       1)  # Base Legendre polynomials
+print("\nMonomial:", p2)
+print("Legendre:", a2)
 plt.figure(2)
 plt.plot(x, f2(x), label='cos(pi x)')
 plt.plot(x, p2(x), '--', label='monomial')
-plt.plot(x, np.polynomial.legendre.legval(x, a2), '.', label='Legendre')
+plt.plot(x, a2(x), '.', label='Legendre')
 plt.legend()
 plt.grid()
 
@@ -82,9 +86,11 @@ a3 = interpolation.lSquaresOrthogonal(f3,
                                       3,
                                       -1,
                                       1)  # Base Legendre polynomials
+print("\nMonomial:", p3)
+print("Legendre:", a3)
 plt.figure(3)
 plt.plot(x, f3(x), label='exp(-x)')
 plt.plot(x, p3(x), '--', label='monomial')
-plt.plot(x, np.polynomial.legendre.legval(x, a3), '.', label='Legendre')
+plt.plot(x, a3(x), '.', label='Legendre')
 plt.legend()
 plt.grid()
