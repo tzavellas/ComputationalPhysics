@@ -59,6 +59,8 @@ for phi in phi_:
     i = i + 1
 plt.plot(np.rad2deg(phi_),
          np.array(Ranges))  # Plot range vs angle
+plt.ylabel('Range [m]')
+plt.xlabel('Angle [deg]')
 plt.grid()
 
 # Exhaustive Search - Assumes range functions has one maximum
@@ -87,6 +89,8 @@ print("Max Range @%.2f deg: %.4f" % (maxPhi,
 plt.figure(2)
 plt.plot(Y[i]['x'],
          Y[i]['y'],
-         label="%.2f" % maxPhi)
+         label="%.2f deg" % maxPhi)
+plt.ylabel('y [m]')
+plt.xlabel('x [m]')
 plt.grid()
 plt.legend()

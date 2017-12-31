@@ -14,17 +14,22 @@ def f(x):
 
 
 IAnalytic = np.power(3, 3) / 3 + np.power(3, 6) / 6
+print('Analytic')
+print('Integral:', IAnalytic)
+
 a = 0.
 b = 3.
 epsilon = 1e-2
 trapezoid = integration.trapezoid(f, a, b, epsilon)
 ITrapezoid = trapezoid['integral']
-print('Trapezoid')
-print('Integral:', ITrapezoid)
+itTrapezoid = trapezoid['iterations']
+print('\nTrapezoid')
+print(trapezoid)
 print('Deviation:', np.abs(IAnalytic - ITrapezoid))
 
 simpson = integration.simpson(f, a, b, epsilon)
 ISimpson = simpson['integral']
+itSimpson = simpson['iterations']
 print('\nSimpson 1/3')
-print('Integral:', ISimpson)
+print(simpson)
 print('Deviation:', np.abs(IAnalytic - ISimpson))

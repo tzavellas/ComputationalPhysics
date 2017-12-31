@@ -1,0 +1,46 @@
+\usepackage{amsmath}                % Mathematical Notation
+\usepackage{amssymb}                % Mathematical Symbols
+\usepackage[english,greek]{babel}   % Multilingual support for Plain TEX or LATEX
+\usepackage{color}                  % Used for defining colors
+\usepackage[b]{esvect}              % Vector Arrows
+\usepackage{graphicx}               % Enhanced support for graphics
+%\usepackage{greektex}
+\usepackage[unicode]{hyperref}      % URL support
+\usepackage{listings}               % Source Code Listings
+\usepackage{placeins}               % Float barrier
+\usepackage{pdfpages}
+\usepackage[utf8x]{inputenc}        % Accept different input encodings
+\usepackage{setspace}               % Set space between lines
+\usepackage{subfiles}               % Individual typesetting of subfiles of a "main" document 
+
+\renewcommand{\vec}[1]{\vv{#1}}
+\newcommand{\dvec}[1]{\dot{\vv{#1}}}
+\newcommand{\ddvec}[1]{\ddot{\vv{#1}}}
+\newcommand{\derivative}[3]{\displaystyle\left.\frac{d#1}{d#2}\right|_{#3}}
+\newcommand{\nderivative}[4]{\displaystyle\left.\frac{d^{#1}#2}{d#3^{#1}}\right|_{#4}}
+
+\onehalfspacing
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstdefinestyle{python}{ %
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    commentstyle=\color{mygreen}\ttfamily,
+    deletekeywords={sum},
+    frame=single,
+    keepspaces=true,
+    keywordstyle=\color{blue},
+    language=Python,
+    morekeywords={as, print},
+    numbers=left,
+    numberstyle=\tiny\color{mygray},
+    showstringspaces=false,
+    stepnumber=5,
+    stringstyle=\color{mymauve},
+    tabsize = 1,
+    title=\lstname
+}
