@@ -33,7 +33,7 @@ def RangeFun(phi, V0, h, f, solver):
 
 plt.close('all')
 V0 = 10.  # Initial velocity
-h = 0.01
+h = 0.02
 
 # Find maximum using Brent's Algorithm
 g = minimize_scalar(lambda phi: -RangeFun(phi,
@@ -47,7 +47,7 @@ print("Max Range @%.2f deg: %.4f" % (np.rad2deg(g['x']),
 plt.figure(1)
 phi_ = np.arange(0.,
                  np.pi/2,
-                 0.0091)  # range of angles to find range
+                 0.01)  # range of angles to find range
 Ranges = list()
 i = 0
 for phi in phi_:
@@ -58,7 +58,7 @@ for phi in phi_:
                               h))
     i = i + 1
 plt.plot(np.rad2deg(phi_),
-         np.array(Ranges))  # Plot range vs angle
+         np.array(Ranges), '.')  # Plot range vs angle
 plt.ylabel('Range [m]')
 plt.xlabel('Angle [deg]')
 plt.grid()
@@ -85,12 +85,9 @@ i = Ranges.index(maxRange)  # Find phi corresponding to max element
 maxPhi = np.rad2deg(phi_[i])
 
 print("Max Range @%.2f deg: %.4f" % (maxPhi,
-                                  maxRange))
+                                     maxRange))
 plt.figure(2)
-plt.plot(Y[i]['x'],
-         Y[i]['y'],
-         label="%.2f deg" % maxPhi)
+plt.plot(Y[i]['x'], Y[i]['y'])
 plt.ylabel('y [m]')
 plt.xlabel('x [m]')
 plt.grid()
-plt.legend()
