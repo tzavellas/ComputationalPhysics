@@ -38,9 +38,9 @@ h = 0.01
 # Find maximum using Brent's Algorithm
 g = minimize_scalar(lambda phi: -RangeFun(phi,
                                           V0,
-                                          h,
                                           f,
-                                          de.rungeKutta4),
+                                          de.rungeKutta4,
+                                          h),
                     bracket=(0, np.pi/2))
 print("Max Range @%.2f deg: %.4f" % (np.rad2deg(g['x']),
                                      -g['fun']))
@@ -53,9 +53,9 @@ i = 0
 for phi in phi_:
     Ranges.insert(i, RangeFun(phi,
                               V0,
-                              h,
                               f,
-                              de.rungeKutta4))
+                              de.rungeKutta4,
+                              h))
     i = i + 1
 plt.plot(np.rad2deg(phi_),
          np.array(Ranges))  # Plot range vs angle
@@ -72,9 +72,9 @@ for i, phi in enumerate(phi_):
     Vy = V0 * np.sin(phi)
     Y0 = np.array([0., Vx, 0., Vy])
     solution = de.solve(Y0,
-                        h,
                         f,
-                        de.rungeKutta4)
+                        de.rungeKutta4,
+                        h)
     Y.insert(i, solution)
     x = solution['x']
     y = solution['y']
